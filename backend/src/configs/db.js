@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 
 const connect = async () => {
         try {
-            await mongoose.connect('mongodb://127.0.0.1/Movie');
+            await mongoose.connect('mongodb+srv://levanhoang29042002:vanhoang123@cluster0.dqpqxqs.mongodb.net/Movie?retryWrites=true&w=majority');
             console.log("connect successfully")
-        } catch (error) {
+        } catch (error) { 
+            console.log(error)
             console.log("connect fail")
         }
 }

@@ -17,8 +17,11 @@ function SignIn() {
       })
       .then(res => {
           if (res.status === 200) {
-            localStorage.setItem('user', JSON.stringify(res.data))
+           
               navigate("/")
+          }
+          else {
+            alert(res.data)
           }
         
       })

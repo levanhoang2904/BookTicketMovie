@@ -30,21 +30,28 @@ const user = async (req, res, next) => {
             
 
             const user = await User.findOne({email: req.body.email})
-             if (req.body.password == user.password) {
-                const {password, ...other} = user._doc
-               const accessToken = genrateAcessToken(other)
-                const refreshToken = genrateRefershToken(other)
-                res.cookie("refreshToken", refreshToken, {
-                    httpOnly: true,
-                    secure: false, //deploy set true
-                    path: "/",
-                    sameSite: "strict"
-                })
-                res.status(200).json({accessToken, ...other} )
-
+            
+            if (user === null) {
+                res.status(201).json("Tài khoản chưa được đăng ký")
             }
             else {
-                res.status(500).json("Sai tên đăng nhập hoặc mật khẩu")
+            
+                if (req.body.password == user.password) {
+                    const {password, ...other} = user._doc
+                   const accessToken = genrateAcessToken(other)
+                    const refreshToken = genrateRefershToken(other)
+                    res.cookie("refreshToken", refreshToken, {
+                        httpOnly: true,
+                        secure: false, //deploy set true
+                        path: "/",
+                        sameSite: "strict"
+                    })
+                    res.status(200).json({accessToken, ...other} )
+    
+                }
+                else {
+                    res.status(201).json("Sai tên đăng nhập hoặc mật khẩu")
+                }
             }
         } catch (error) {
             console.log(error)
